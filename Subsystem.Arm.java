@@ -10,7 +10,7 @@ import com.seattlesolvers.solverslib.controller.PIDFController;
 
 public class Arm extends SubsystemBase {
     private DcMotorEx armMotor;
-    private Servo articulationArm;
+    private final Servo articulationArm;
 
     public static double kP;
     public static double kI;
@@ -78,6 +78,14 @@ public class Arm extends SubsystemBase {
 
         if(up) {
             double ff = targetTPS * kF;
+            double pid = pidf.calculate(currentTPS, targetTPS);
+            power = ff + pid;
+            power = Math.max(0.0, Math.max(0.7, power));
+            armMotor.setPower(power);
+        }
+        else{
+            armMotor.setPower(0);
+            pidf.reset();
         }
     }
 
