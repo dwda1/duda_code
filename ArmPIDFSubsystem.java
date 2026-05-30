@@ -24,6 +24,8 @@ public class ArmPIDFSubsystem extends SubsystemBase {
   public static final double MAX_HEIGHT = 69.6;
   public static final double MIN_HEIGHT = 0;
 
+  double last target
+
   //conversão cm => ticks
   public int cmToTicks(double cm) {
     return (int) (cm / cm_per_tick);
@@ -63,6 +65,49 @@ public class ArmPIDFSubsystem extends SubsystemBase {
     viper.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     viper.setPower(0);
   }
+
+  private enum Mode() {
+    OFF,
+    DOWN,
+    TO_HIGH_CHAMBER,
+    TO_LOW_CHAMBER,
+    TO_HIGH_BASKET,
+    TO_LOW_BASKET
+  }
+
+  private Mode mode = Mode.OFF;
+
+  public void viperOff() { mode = Mode.OFF;}
+  public void viperDown() { mode = Mode.DOWN; }
+  public void viperToHighChamber() { mode = Mode.TO_HIGH_CHAMBER; }
+  public void viperToLowChamber() { mode = Mode.TO_LOW_CHAMBER; }
+  public void viperToHighBasket() { mode = Mode.TO_HIGH_BASKET; }
+  public void viperToLowBasket() { mode = Mode.TO_LOW_BASKET; }
+
+  @Override
+  public void periodic() {
+
+  //state machine
+    switch (mode) {
+
+    case OFF: 
+        resetViper();
+        target = initialPosition;
+        break;
+
+    case DOWN: 
+        target = cmToTicks(initialPosition);
+        viper.setDirection(DcMotor.Direction.REVERSE);
+        //duvida sobre a variável power
+        viper.setPower(power);
+        break;
+
+        
+        
+    
+  }
+
+  
 
 
 }
