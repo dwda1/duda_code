@@ -2,8 +2,8 @@ public class ArmPIDFSubsystem extends SubsystemBase {
 
   public static double kP = 0.01, kI = 0, kD = 0;
   public static double kF = 0;
-  public static Controller pidf;
-  public static int target = 0; 
+  private final Controller pidf;
+  private int target = 0; 
 
   //tolerance
   private final int TOLERANCE = 15;
@@ -21,7 +21,7 @@ public class ArmPIDFSubsystem extends SubsystemBase {
   //Posições do viper em cm
   public static final double highChamber = 66.0;
   public static final double lowChamber = 33.0;
-  public static final double highBasket = 109.2;
+  public static final double highBasket = 69.6;
   public static final double lowBasket = 65.4;
   public static final double startPosition = 0;
   public static final double MAX_HEIGHT = 69.6;
@@ -46,7 +46,7 @@ public class ArmPIDFSubsystem extends SubsystemBase {
   public void pidfUpdate() {
 
     //limitador de target
-    target = Math.max(cmToTicks(MIN_HEEIGHT), Math.min(cmToTicks(MAX_HEIGHT), target));
+    target = Math.max(cmToTicks(MIN_HEIGHT), Math.min(cmToTicks(MAX_HEIGHT), target));
 
     //atualizar os valores de pidf
     pidf.setPIDF(kP, kI, kD, kF);
@@ -62,13 +62,12 @@ public class ArmPIDFSubsystem extends SubsystemBase {
     double speed = 0.8;
     power = (speed * output);
     viper.setPower(power);
+    }
 
-    //verifica se chegou
+   //verifica se chegou ao target
     public boolean atTarget() {
       return Math.abs(posViper - target) < TOLERANCE && Math.abs(viper.getVelocity()) < 15;
-      
-    }
-    }
+      }
 
   public void resetViper() {
     pidf.reset();
@@ -103,7 +102,7 @@ public class ArmPIDFSubsystem extends SubsystemBase {
 
       case OFF: 
         viper.setPower(0);
-        target = startPosition;
+        target = cmToTicks(startPosition);
         break;
 
       case DOWN: 
@@ -132,8 +131,5 @@ public class ArmPIDFSubsystem extends SubsystemBase {
     }
 
   }
-
-
-
 
 }
