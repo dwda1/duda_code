@@ -34,7 +34,6 @@ public class ArmPIDFSubsystem extends SubsystemBase {
   public ArmPIDFSubsystem(HardwareMap hwMap) {
     viper = hwMap.get(DcMotorEx.class, "viper");
     
-    viper.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     viper.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     viper.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -129,5 +128,26 @@ public class ArmPIDFSubsystem extends SubsystemBase {
     }
 
   }
+
+  //status
+
+  public int getTarget() { return target; }
+  public int getViperPosition() { return viper.getCurrentPosition(); }
+  public double getError() { return target - viper.getCurrentPosition(); }
+  public double getViperPower() { return power; }
+  public double getViperVelocity() { return viper.getVelocity(); }
+
+  public String getStatus() {
+    return String.format(
+      "Mode=%s ViperPos=%d Target=%d Error=%d Power=%.2f Velocity=%.1f",
+      mode,
+      getViperPosition(),
+      getTarget(),
+      getError(),
+      getViperPower(),
+      getViperVelocity()
+      );
+ }
+  
 
 }
