@@ -90,28 +90,47 @@ public class ArmPIDFSubsystem extends SubsystemBase {
   //state machine
     switch (mode) {
 
-    case OFF: 
+      case OFF: 
         resetViper();
         target = initialPosition;
         break;
 
-    case DOWN: 
+      case DOWN: 
         target = cmToTicks(initialPosition);
         viper.setDirection(DcMotor.Direction.REVERSE);
         //duvida sobre a variável power
         viper.setPower(power);
         break;
 
-        
-        
+      case TO_HIGH_CHAMBER:
+        target = cmToTicks(highChamber);
+        viper.setDirection(DcMotor.Direction.FORWARD);
+        viper.setPower(power);
+        break;
+      
+      case TO_LOW_CHAMBER:
+        target = cmToTicks(lowChamber);
+        viper.setDirection(DcMotor.Direction.FORWARD);
+        viper.setPower(power);
+        break;
+
+      case TO_HIGH_BASKET:
+        target = cmToTicks(highBasket);
+        viper.setDirection(DcMotor.Direction.FORWARD);
+        viper.setPower(power);
+        break; 
+
+      case TO_LOW_BASKET:
+        target = cmToTicks(lowBasket);
+        viper.setDirection(DcMotor.Direction.FORWARD);
+        viper.setPower(power);
+        break;  
     
   }
-
-  
-
 
 }
 
 
 
 
+}
