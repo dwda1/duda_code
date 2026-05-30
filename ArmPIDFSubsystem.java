@@ -11,12 +11,10 @@ public class ArmPIDFSubsystem extends SubsystemBase {
   private final DcMotorEx viper;
   public double power;
 
-  public final double ticks_per_rev = 537.7;
-
-  public final double degrees_per_tick = 360.0 / 537.7; //grau por tick
+  public static final double ticks_per_rev = 537.7;
   
-  public final double cm_per_rev = 3.82 * Math.PI; // perímetro em cm (dSpool*pi) 
-  public final double cm_per_tick = cm_per_rev / ticks_per_rev; 
+  public static final double cm_per_rev = 3.82 * Math.PI; // perímetro em cm (dSpool*pi) 
+  public static final double cm_per_tick = cm_per_rev / ticks_per_rev; 
 
   //Posições do viper em cm
   public static final double highChamber = 66.0;
@@ -66,7 +64,7 @@ public class ArmPIDFSubsystem extends SubsystemBase {
 
    //verifica se chegou ao target
     public boolean atTarget() {
-      return Math.abs(posViper - target) < TOLERANCE && Math.abs(viper.getVelocity()) < 15;
+      return Math.abs(viper.getCurrentPosition() - target) < TOLERANCE && Math.abs(viper.getVelocity()) < 15;
       }
 
   public void resetViper() {
