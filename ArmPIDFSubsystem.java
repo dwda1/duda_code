@@ -5,6 +5,9 @@ public class ArmPIDFSubsystem extends SubsystemBase {
   public static Controller pidf;
   public static int target = 0; 
 
+  //tolerance
+  private final int TOLERANCE = 15;
+
   private final DcMotorEx viper;
   public double power;
 
@@ -24,12 +27,10 @@ public class ArmPIDFSubsystem extends SubsystemBase {
   public static final double MAX_HEIGHT = 69.6;
   public static final double MIN_HEIGHT = 0;
 
-  double last target
-
   //conversão cm => ticks
   public int cmToTicks(double cm) {
     return (int) (cm / cm_per_tick);
-  } //target = cmToTicks(highBasket);
+  } 
 
   //Construtor
   public ArmPIDFSubsystem(HardwareMap hwMap) {
@@ -43,6 +44,9 @@ public class ArmPIDFSubsystem extends SubsystemBase {
   }
 
   public void pidfUpdate() {
+
+    //limitador de target
+    target = Math.max(cmToTicks(MIN_HEEIGHT), Math.min(cmToTicks(MAX_HEIGHT), target));
 
     //atualizar os valores de pidf
     pidf.setPIDF(kP, kI, kD, kF);
@@ -58,15 +62,22 @@ public class ArmPIDFSubsystem extends SubsystemBase {
     double speed = 0.8;
     power = (speed * output);
     viper.setPower(power);
+
+    //verifica se chegou
+    public boolean atTarget() {
+      return Math.abs(posViper - target) < TOLERANCE && Math.abs(viper.getVelocity()) < 15;
+      
+    }
     }
 
   public void resetViper() {
     pidf.reset();
     viper.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    viper.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     viper.setPower(0);
   }
 
-  private enum Mode() {
+  private enum Mode {
     OFF,
     DOWN,
     TO_HIGH_CHAMBER,
@@ -91,44 +102,36 @@ public class ArmPIDFSubsystem extends SubsystemBase {
     switch (mode) {
 
       case OFF: 
-        resetViper();
-        target = initialPosition;
+        viper.setPower(0);
+        target = startPosition;
         break;
 
       case DOWN: 
-        target = cmToTicks(initialPosition);
-        viper.setDirection(DcMotor.Direction.REVERSE);
-        //duvida sobre a variável power
-        viper.setPower(power);
+        target = cmToTicks(startPosition);
         break;
 
       case TO_HIGH_CHAMBER:
         target = cmToTicks(highChamber);
-        viper.setDirection(DcMotor.Direction.FORWARD);
-        viper.setPower(power);
         break;
       
       case TO_LOW_CHAMBER:
         target = cmToTicks(lowChamber);
-        viper.setDirection(DcMotor.Direction.FORWARD);
-        viper.setPower(power);
         break;
 
       case TO_HIGH_BASKET:
         target = cmToTicks(highBasket);
-        viper.setDirection(DcMotor.Direction.FORWARD);
-        viper.setPower(power);
         break; 
 
       case TO_LOW_BASKET:
         target = cmToTicks(lowBasket);
-        viper.setDirection(DcMotor.Direction.FORWARD);
-        viper.setPower(power);
-        break;  
-    
-  }
+        break; 
+        }
 
-}
+    if (mode != Mode.OFF) {
+      pidfUpdate();
+    }
+
+  }
 
 
 
