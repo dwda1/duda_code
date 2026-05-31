@@ -8,7 +8,7 @@ public class ViperOff extends CommandBase {
   }
 
   @Override
-  public void initialized() {
+  public void initialize() {
     viper.viperOff();
   }
 
