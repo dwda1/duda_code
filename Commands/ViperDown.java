@@ -4,7 +4,7 @@ public class ViperDown extends CommandBase {
 
   public ViperDown(ArmPIDFSubsystem subsystem) {
     viper = subsystem;
-    addRequeriments(viper);
+    addRequirements(viper);
   }
 
    @Override
@@ -14,6 +14,6 @@ public class ViperDown extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return true;
+    return viper.atTarget();
   }
 }
