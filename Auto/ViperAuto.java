@@ -6,30 +6,23 @@ public class AutoViper extends LinearOpMode {
   public void runOpMode() throws InterruptedException {
     viper = new ArmPIDFSubsystem(hwMap);
     viper.resetViper();
-    
-  ViperOff v_off = new ViperOff(viper);
-  ViperDown v_down = new ViperDown(viper);
-  GoToHighChamber v_high_chamber = new GoToHighChamber(viper);
-  GoToLowChamber v_low_chamber = new GoToLowChamber(viper);
-  GoToHighBasket v_high_basket = new GoToHighBasket(viper);
-  GoToLowBasket v_low_basket = new GoToLowBasket(viper);
 
     waitForStart();
 
     CommandScheduler.getInstance().schedule(
       new SequentialCommandGroup(
-        v_low_chamber,
-        v_down,
+        new GoToLowChamber(viper),
+        new ViperDown(viper),
 
-        v_high_chamber,
-        v_down,
+        new GoToHighChamber(viper),
+        new ViperDown(viper),
 
-        v_low_basket,
-        v_down,
+        new GoToLowBasket(viper),
+        new ViperDown(viper),
 
-        v_high_basket,
-        v_down,
-        v_off
+        new GoToHighBasket(viper),
+        new ViperDown(viper),
+        new ViperOff(viper)
         )
       );
 
