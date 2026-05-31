@@ -3,8 +3,9 @@ public class AutoViper extends LinearOpMode {
   private ArmPIDFSubsystem viper;
 
   @Override
-  public void runOpMode() throws InterruptedExeption {
+  public void runOpMode() throws InterruptedException {
     viper = new ArmPIDFSubsystem(hwMap);
+    viper.resetViper();
     
   ViperOff v_off = new ViperOff(viper);
   ViperDown v_down = new ViperDown(viper);
