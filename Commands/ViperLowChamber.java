@@ -4,7 +4,7 @@ public class GoToLowChamber extends CommandBase {
 
   public GoToLowChamber(ArmPIDFSubsystem subsystem) {
     viper = subsystem;
-    addRequeriments(viper);
+    addRequirements(viper);
   }
 
   @Override
@@ -14,6 +14,6 @@ public class GoToLowChamber extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return true;
+    return viper.atTarget();
   }
 }
