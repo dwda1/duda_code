@@ -2,7 +2,7 @@ public class GoToHighChamber extends CommandBase {
 
   private final ArmPIDFSubsystem viper;
 
-  public ViperOff(ArmPIDFSubsystem subsystem) {
+  public GoToHighChamber(ArmPIDFSubsystem subsystem) {
     viper = subsystem;
     addRequeriments(viper);
   }
