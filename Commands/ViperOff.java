@@ -4,7 +4,7 @@ public class ViperOff extends CommandBase {
 
   public ViperOff(ArmPIDFSubsystem subsystem) {
     viper = subsystem;
-    addRequeriments(viper);
+    addRequirements(viper);
   }
 
   @Override
