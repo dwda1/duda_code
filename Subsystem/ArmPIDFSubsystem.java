@@ -2,7 +2,7 @@ public class ArmPIDFSubsystem extends SubsystemBase {
 
   public static double kP = 0.01, kI = 0, kD = 0;
   public static double kF = 0;
-  private final Controller pidf;
+  private final PIDFController pidf;
   private int target = 0; 
 
   //tolerance
@@ -37,7 +37,7 @@ public class ArmPIDFSubsystem extends SubsystemBase {
     viper.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     viper.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-    pidf = new Controller(kP, kI, kD, kF); 
+    pidf = new PIDFController(kP, kI, kD, kF); 
   }
 
   public void pidfUpdate() {
