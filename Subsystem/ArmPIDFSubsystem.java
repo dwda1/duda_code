@@ -11,6 +11,9 @@ public class ArmPIDFSubsystem extends SubsystemBase {
   private final DcMotorEx viper;
   public double power;
 
+  private final Servo joint;
+  public double jointPos;
+  
   public static final double ticks_per_rev = 537.7;
   
   public static final double cm_per_rev = 3.82 * Math.PI; // perímetro em cm (dSpool*pi) 
@@ -73,6 +76,10 @@ public class ArmPIDFSubsystem extends SubsystemBase {
     viper.setPower(0);
   }
 
+  //====================================================
+  //===============VIPER STATE MACHINE==================
+  //====================================================
+
   private enum Mode {
     OFF,
     DOWN,
@@ -91,10 +98,39 @@ public class ArmPIDFSubsystem extends SubsystemBase {
   public void viperToHighBasket() { mode = Mode.TO_HIGH_BASKET; }
   public void viperToLowBasket() { mode = Mode.TO_LOW_BASKET; }
 
+  //====================================================
+  //===============JOINT ENUM MODE==================
+  //====================================================
+
+  private enum JMode {
+    OFF,
+    DOWN,
+    TO_BASKET,
+    TO_CHAMBER
+  }
+
+  private JMode jointMode = JMode.OFF;
+
+  public void jointOff() { jointMode = JMode.OFF; }
+  public void jointDown() { jointMode = JMode.DOWN; }
+  public void jointToBasket() { jointMode = JMode.TO_BASKET; }
+  public void jointToChamber() { jointMode = JMode.TO_CHAMBER; }
+
+  public boolean jointAtTarget() {
+    boolean targetPos;
+    if (joint.getPosition() == jointPos) {
+      targetPos = true;
+    }
+    return targetPos
+  }
+
   @Override
   public void periodic() {
 
-  //state machine
+  //====================================================
+  //===============VIPER STATE MACHINE==================
+  //====================================================
+      
     switch (mode) {
 
       case OFF: 
@@ -127,7 +163,34 @@ public class ArmPIDFSubsystem extends SubsystemBase {
       pidfUpdate();
     }
 
-  }
+  //====================================================
+  //===============VIPER STATE MACHINE==================
+  //====================================================
+
+    switch (jointMode) {
+
+      case OFF:
+        joint.setPosition(jointPos);
+        jointPos = 0.0;
+        break;
+
+      case DOWN:
+        joint.setPosition(jointPos);
+        jointPos = 0.0;
+        break;
+
+      case TO_BASKET:
+        joint.setPosition(jointPos);
+        jointPos = 0.75;
+        break;
+
+      case TO_CHAMBER:
+        joint.setPosition(jointPos);
+        jointPos = 0.34;
+        break;
+    }
+    
+ }
 
   //status
 
@@ -137,15 +200,18 @@ public class ArmPIDFSubsystem extends SubsystemBase {
   public double getViperPower() { return power; }
   public double getViperVelocity() { return viper.getVelocity(); }
 
+  public double getJointPosition() { return joint.getPosition(); }
+
   public String getStatus() {
     return String.format(
-      "Mode=%s ViperPos=%d Target=%d Error=%d Power=%.2f Velocity=%.1f",
+      "Mode=%s ViperPos=%d Target=%d Error=%d Power=%.2f Velocity=%.1f JPos=%d",
       mode,
       getViperPosition(),
       getTarget(),
       getError(),
       getViperPower(),
-      getViperVelocity()
+      getViperVelocity(),
+      getJointPosition()
       );
  }
   
