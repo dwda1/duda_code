@@ -2,7 +2,7 @@ public class JointOff extends CommandBase {
 
 public final ArmPIDFSubsystem joint;
 
-public JointDown(ArmPIDFSubsystem = subsystem) {
+public JointOff(ArmPIDFSubsystem = subsystem) {
   joint = subsystem;
   addRequirements(joint);
 }
