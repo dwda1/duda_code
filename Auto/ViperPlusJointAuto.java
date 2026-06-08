@@ -1,26 +1,37 @@
-public class AutoViper extends LinearOpMode {
+public class AutoArm extends LinearOpMode {
 
   private ArmPIDFSubsystem viper;
+  private ArmPIDFSubsystem joint;
 
   @Override
   public void runOpMode() throws InterruptedException {
-    viper = new ArmPIDFSubsystem(hwMap);
+    viper = new ArmPIDFSubsystem(hardwareMap);
     viper.resetViper();
+
+    joint = new ArmPIDFSubsystem(hardwareMap);
 
     waitForStart();
 
     CommandScheduler.getInstance().schedule(
       new SequentialCommandGroup(
         new GoToLowChamber(viper),
+        new JointToChamber(joint),
+        new JointDonw(joint),
         new ViperDown(viper),
 
         new GoToHighChamber(viper),
+        new JointToChamber(joint),
+        new JointDonw(joint),
         new ViperDown(viper),
 
         new GoToLowBasket(viper),
+        new JointToBasket(joint),
+        new JointDonw(joint),
         new ViperDown(viper),
 
         new GoToHighBasket(viper),
+        new JointToBasket(joint),
+        new JointDonw(joint),
         new ViperDown(viper),
         new ViperOff(viper)
         )
@@ -30,7 +41,7 @@ public class AutoViper extends LinearOpMode {
 
       CommandScheduler.getInstance().run();
 
-      telemetry.addData("Viper status: ", viper.getStatus());
+      telemetry.addData("status: ", viper.getStatus());
       telemetry.update();
     }
 
