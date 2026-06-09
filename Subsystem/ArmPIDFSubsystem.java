@@ -170,23 +170,23 @@ public class ArmPIDFSubsystem extends SubsystemBase {
     switch (jointMode) {
 
       case OFF:
-        joint.setPosition(jointPos);
         jointPos = 0.0;
+        joint.setPosition(jointPos);
         break;
 
       case DOWN:
-        joint.setPosition(jointPos);
         jointPos = 0.0;
+        joint.setPosition(jointPos);
         break;
 
       case TO_BASKET:
-        joint.setPosition(jointPos);
         jointPos = 0.75;
+        joint.setPosition(jointPos);
         break;
 
       case TO_CHAMBER:
-        joint.setPosition(jointPos);
         jointPos = 0.34;
+        joint.setPosition(jointPos);
         break;
     }
     
