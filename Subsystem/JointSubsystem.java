@@ -7,6 +7,7 @@ public class SJointSubsystem extends SubsystemBase {
 
     private Servo joint;
     public double pos;
+    public boolean targetPos;
 
     //construtor
     public JointSubsystem (HardwareMap hwMap) {
@@ -31,11 +32,15 @@ public class SJointSubsystem extends SubsystemBase {
     public void jointToBasket() { jointMode = JMode.TO_BASKET; }
     public void jointToChamber() { jointMode = JMode.TO_CHAMBER; }
 
+    //verifica se já chegou na posição
     public boolean jointAtTarget() {
-        boolean targetPos = true;
-        if (joint.getPosition() == pos) {
+        
+        if (joint.getPosition() == pos) { 
             targetPos = true;
         }
+        else {
+            targetPos = false;
+        } 
         return targetPos;
     }
 
@@ -64,7 +69,13 @@ public class SJointSubsystem extends SubsystemBase {
                 joint.setPosition(pos);
                 break;
         }
-
     }
 
+    public String getJointStatus() {
+        return String.format(
+            "Mode=%s JointPos=%d",
+            mode,
+            joint.getPosition()
+            );
+    }
 }
