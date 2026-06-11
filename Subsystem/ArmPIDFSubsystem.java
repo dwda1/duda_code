@@ -10,9 +10,6 @@ public class ArmPIDFSubsystem extends SubsystemBase {
 
   private final DcMotorEx viper;
   public double power;
-
-  private final Servo joint;
-  public double jointPos;
   
   public static final double ticks_per_rev = 537.7;
   
@@ -98,32 +95,6 @@ public class ArmPIDFSubsystem extends SubsystemBase {
   public void viperToHighBasket() { mode = Mode.TO_HIGH_BASKET; }
   public void viperToLowBasket() { mode = Mode.TO_LOW_BASKET; }
 
-  //====================================================
-  //===============JOINT ENUM MODE==================
-  //====================================================
-
-  private enum JMode {
-    OFF,
-    DOWN,
-    TO_BASKET,
-    TO_CHAMBER
-  }
-
-  private JMode jointMode = JMode.OFF;
-
-  public void jointOff() { jointMode = JMode.OFF; }
-  public void jointDown() { jointMode = JMode.DOWN; }
-  public void jointToBasket() { jointMode = JMode.TO_BASKET; }
-  public void jointToChamber() { jointMode = JMode.TO_CHAMBER; }
-
-  public boolean jointAtTarget() {
-    boolean targetPos;
-    if (joint.getPosition() == jointPos) {
-      targetPos = true;
-    }
-    return targetPos
-  }
-
   @Override
   public void periodic() {
 
@@ -162,34 +133,6 @@ public class ArmPIDFSubsystem extends SubsystemBase {
     if (mode != Mode.OFF) {
       pidfUpdate();
     }
-
-  //====================================================
-  //===============VIPER STATE MACHINE==================
-  //====================================================
-
-    switch (jointMode) {
-
-      case OFF:
-        jointPos = 0.0;
-        joint.setPosition(jointPos);
-        break;
-
-      case DOWN:
-        jointPos = 0.0;
-        joint.setPosition(jointPos);
-        break;
-
-      case TO_BASKET:
-        jointPos = 0.75;
-        joint.setPosition(jointPos);
-        break;
-
-      case TO_CHAMBER:
-        jointPos = 0.34;
-        joint.setPosition(jointPos);
-        break;
-    }
-    
  }
 
   //status
@@ -200,18 +143,15 @@ public class ArmPIDFSubsystem extends SubsystemBase {
   public double getViperPower() { return power; }
   public double getViperVelocity() { return viper.getVelocity(); }
 
-  public double getJointPosition() { return joint.getPosition(); }
-
   public String getStatus() {
     return String.format(
-      "Mode=%s ViperPos=%d Target=%d Error=%d Power=%.2f Velocity=%.1f JPos=%d",
+      "Mode=%s ViperPos=%d Target=%d Error=%d Power=%.2f Velocity=%.1f",
       mode,
       getViperPosition(),
       getTarget(),
       getError(),
       getViperPower(),
-      getViperVelocity(),
-      getJointPosition()
+      getViperVelocity()
       );
  }
   
