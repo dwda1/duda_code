@@ -13,7 +13,7 @@ public class ClawClose extends CommandBase {
   }
 
   @Override
-  public void isFinished() {
-    claw.clawAtTarget();
+  public boolean isFinished() {
+    return claw.clawAtTarget();
   }
 }
