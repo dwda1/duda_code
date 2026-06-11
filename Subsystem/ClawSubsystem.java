@@ -19,8 +19,8 @@ public class ClawSubsystem extends SubsystemBase {
     }
     private Mode mode = Mode.OPEN;
 
-    public void Claw_Open() { mode = Mode.OPEN; }
-    public void Claw_Close() { mode = Mode.CLOSE; }
+    public void claw_Open() { mode = Mode.OPEN; }
+    public void claw_Close() { mode = Mode.CLOSE; }
 
     // verifica se já chegou na posição
     public boolean clawAtTarget() { return claw.getPOsition() == pos; }
