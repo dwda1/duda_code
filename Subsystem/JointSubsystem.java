@@ -8,6 +8,11 @@ public class SJointSubsystem extends SubsystemBase {
     private Servo joint;
     public double pos;
 
+    //construtor
+    public JointSubsystem (HardwareMap hwMap) {
+        joint = hwMap.get(Servo.class, "joint");
+    }
+
     //====================================================
     //===============JOINT ENUM MODE==================
     //====================================================
@@ -50,12 +55,12 @@ public class SJointSubsystem extends SubsystemBase {
                 break;
 
             case TO_BASKET:
-                pos = 0.75;
+                pos = 0.85;
                 joint.setPosition(pos);
                 break;
 
             case TO_CHAMBER:
-                pos = 0.34;
+                pos = 0.5;
                 joint.setPosition(pos);
                 break;
         }
