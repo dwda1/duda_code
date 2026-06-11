@@ -7,7 +7,6 @@ public class SJointSubsystem extends SubsystemBase {
 
     private Servo joint;
     public double pos;
-    public boolean targetPos;
 
     //construtor
     public JointSubsystem (HardwareMap hwMap) {
@@ -33,16 +32,7 @@ public class SJointSubsystem extends SubsystemBase {
     public void jointToChamber() { jointMode = JMode.TO_CHAMBER; }
 
     //verifica se já chegou na posição
-    public boolean jointAtTarget() {
-        
-        if (joint.getPosition() == pos) { 
-            targetPos = true;
-        }
-        else {
-            targetPos = false;
-        } 
-        return targetPos;
-    }
+    public boolean jointAtTarget() { return joint.getPosition() == pos; }
 
     @Override
     public void periodic() {
