@@ -1,4 +1,5 @@
 public class ClawOpen extends CommandBase {
+  
   private final ClawSubsystem claw;
 
   public ClawOpen (ClawSubsystem subsystem) {
