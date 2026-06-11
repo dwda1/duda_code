@@ -8,7 +8,6 @@ import com.seattlesolvers.solverslib.command.SubsystemBase;
 public class ClawSubsystem extends SubsystemBase {
     private Servo claw;
     public double pos;
-    public boolean targetPos;
 
     public ClawSubsystem (HardwareMap hwMap) {
         claw = hwMap.get(Servo.class, "claw");
