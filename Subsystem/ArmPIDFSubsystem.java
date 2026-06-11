@@ -136,7 +136,6 @@ public class ArmPIDFSubsystem extends SubsystemBase {
  }
 
   //status
-
   public int getTarget() { return target; }
   public int getViperPosition() { return viper.getCurrentPosition(); }
   public double getError() { return target - viper.getCurrentPosition(); }
@@ -154,6 +153,4 @@ public class ArmPIDFSubsystem extends SubsystemBase {
       getViperVelocity()
       );
  }
-  
-
 }
