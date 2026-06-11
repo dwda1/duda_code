@@ -9,6 +9,10 @@ public class ClawSubsystem extends SubsystemBase {
     private Servo claw;
     public double pos;
 
+    public ClawSubsystem (HardwareMap hwMap) {
+        claw = hwMap.get(Servo.class, "claw");
+    }
+
     public enum Mode {
         OPEN,
         CLOSE
@@ -17,6 +21,8 @@ public class ClawSubsystem extends SubsystemBase {
 
     public void Claw_Open() { mode = Mode.OPEN; }
     public void Claw_Close() { mode = Mode.CLOSE; }
+
+    public boolean 
 
     @Override
     public void periodic() {
