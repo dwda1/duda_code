@@ -1,14 +1,14 @@
 public class AutoArm extends LinearOpMode {
 
   private ArmPIDFSubsystem viper;
-  private ArmPIDFSubsystem joint;
+  private JointSubsystem joint;
 
   @Override
   public void runOpMode() throws InterruptedException {
     viper = new ArmPIDFSubsystem(hardwareMap);
     viper.resetViper();
 
-    joint = new ArmPIDFSubsystem(hardwareMap);
+    joint = new JointSubsystem(hardwareMap);
 
     waitForStart();
 
