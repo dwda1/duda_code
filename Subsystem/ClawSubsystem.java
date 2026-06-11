@@ -23,18 +23,9 @@ public class ClawSubsystem extends SubsystemBase {
     public void Claw_Open() { mode = Mode.OPEN; }
     public void Claw_Close() { mode = Mode.CLOSE; }
 
-    public boolean clawAtTarget() {
-        
-        if (claw.getPosition() == pos) {
-            targetPos = true;
-        } 
-        else {
-            targetPos = false;
-        }
-// nesse caso, o return fica dentro ou fora do if-else?
-        return targetPos;
-    }
-
+    // verifica se já chegou na posição
+    public boolean clawAtTarget() { return claw.getPOsition() == pos; }
+    
     @Override
     public void periodic() {
         //state machine
@@ -49,6 +40,7 @@ public class ClawSubsystem extends SubsystemBase {
                 claw.setPosition(pos);
         }
     }
+    
     public String getClawStatus() {
         return String.format(
                 "Mode=%s ClawPos=%d",
