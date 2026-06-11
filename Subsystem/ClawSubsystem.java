@@ -8,6 +8,7 @@ import com.seattlesolvers.solverslib.command.SubsystemBase;
 public class ClawSubsystem extends SubsystemBase {
     private Servo claw;
     public double pos;
+    public boolean targetPos;
 
     public ClawSubsystem (HardwareMap hwMap) {
         claw = hwMap.get(Servo.class, "claw");
@@ -22,7 +23,17 @@ public class ClawSubsystem extends SubsystemBase {
     public void Claw_Open() { mode = Mode.OPEN; }
     public void Claw_Close() { mode = Mode.CLOSE; }
 
-    public boolean 
+    public boolean clawAtTarget() {
+        
+        if (claw.getPosition() == pos) {
+            targetPos = true;
+        } 
+        else {
+            targetPos = false;
+        }
+// nesse caso, o return fica dentro ou fora do if-else?
+        return targetPos;
+    }
 
     @Override
     public void periodic() {
