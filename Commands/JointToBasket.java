@@ -1,6 +1,7 @@
 public class JointToBasket extends CommandBase {
 
   public final ArmPIDFSubsystem joint;
+  private ElapsedTime timer;
 
   public JointToBasket (ArmPIDFSubsystem subsystem) {
     joint = subsystem;
@@ -10,10 +11,11 @@ public class JointToBasket extends CommandBase {
   @Override
   public void initialize() {
     joint.jointToBasket();
+    timer = new ElapsedTime();
   }
 
   @Override
   public boolean isFinished() {
-    joint.jointAtTarget();
+    return timer.milliseconds() > 1000;
   }
 }
