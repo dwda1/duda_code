@@ -28,13 +28,14 @@ public class ActuatorPIDFSubsystem extends SubsystemBase {
     atuator.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
     pidf = new PIDFController(kP, kI, kD, kF);
+  }
 
-  //pos = 60 cm
-  //target = 1
+  publi
 
   //a distância percorrida pelo actuator = ao perímetro da engrenagem acoplada ao motor
   // o diâmetro da engrenagem = 4,96 cm
   // p = d.r => 4.96 * Math.PI
-  // ticks per rev = 145.6
+  // ticks per rev = 145.6 => 1150 RPM
+  // ticks per rev = 537.7 => 312 RPM
   // para saber quantos ticks tem um motor, pega a resolução do encoder (28 contagens per rev => 28 PPR) e multiplica pela redução
   
