@@ -1,6 +1,7 @@
 public class JointOff extends CommandBase {
 
 public final ArmPIDFSubsystem joint;
+private ElapsedTime timer;
 
 public JointOff(ArmPIDFSubsystem = subsystem) {
   joint = subsystem;
@@ -10,10 +11,11 @@ public JointOff(ArmPIDFSubsystem = subsystem) {
   @Override
   public void initialize() {
     joint.jointOff();
+    timer = new ElapsedTime();
 }
 
   @Override
   public boolean isFinished() {
-    return joint.jointAtTarget();
+    return timer.milliseconds() > 500;
   }
 }
