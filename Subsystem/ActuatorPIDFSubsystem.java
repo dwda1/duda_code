@@ -16,6 +16,15 @@ public class ActuatorPIDFSubsystem extends SubsystemBase {
   //nessa distância ele roda esse número de ticks
   double cm_per_tick = cm_per_rev / ticks_per_rev;
 
+  //posições do atuator
+  double MAX_HEIGHT = 
+  double MIN_HEIGHT =
+  double hightChamber =
+  double lowChamber =
+  double hightBasket =
+  double lowBasket =
+  double initialPosition =
+
   //convertendo cm para ticks
   public int cmToTicks(int cm) {
     return (int) (cm / cm_per_tick);
@@ -30,7 +39,10 @@ public class ActuatorPIDFSubsystem extends SubsystemBase {
     pidf = new PIDFController(kP, kI, kD, kF);
   }
 
-  publi
+  public void pidfUpdate() {
+
+   //limitador 
+  }
 
   //a distância percorrida pelo actuator = ao perímetro da engrenagem acoplada ao motor
   // o diâmetro da engrenagem = 4,96 cm
