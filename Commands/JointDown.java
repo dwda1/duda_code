@@ -1,6 +1,7 @@
 public class JointDown extends CommandBase {
 
 public final ArmPIDFSubsystem joint;
+private ElapsedTime timer;
 
 public JointDown(ArmPIDFSubsystem = subsystem) {
   joint = subsystem;
@@ -10,10 +11,11 @@ public JointDown(ArmPIDFSubsystem = subsystem) {
   @Override
   public void initialize() {
     joint.jointDown();
+    timer = new ElapsedTime();
 }
 
   @Override
   public boolean isFinished() {
-    return joint.jointAtTarget();
+    return timer.milliseconds() > 500;
   }
 }
