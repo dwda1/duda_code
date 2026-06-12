@@ -1,9 +1,10 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.seattlesolvers.solverslib.command.SubsystemBase;
 
-public class SJointSubsystem extends SubsystemBase {
+public class JointSubsystem extends SubsystemBase {
 
     private Servo joint;
     public double pos;
@@ -32,7 +33,7 @@ public class SJointSubsystem extends SubsystemBase {
     public void jointToChamber() { jointMode = JMode.TO_CHAMBER; }
 
     //verifica se já chegou na posição
-    public boolean jointAtTarget() { return joint.getPosition() == pos; }
+    public boolean jointAtTarget() { return Math.abs(joint.getPosition() - pos) < 0.01; }
 
     @Override
     public void periodic() {
@@ -63,8 +64,8 @@ public class SJointSubsystem extends SubsystemBase {
 
     public String getJointStatus() {
         return String.format(
-            "Mode=%s JointPos=%d",
-            mode,
+            "Mode=%s JointPos=%.2f",
+            jointMode,
             joint.getPosition()
             );
     }
