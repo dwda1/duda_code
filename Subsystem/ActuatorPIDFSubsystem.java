@@ -71,7 +71,7 @@ public class ActuatorPIDFSubsystem extends SubsystemBase {
     actuator.stPower(0);
   }
 
-  //state machine
+  //modos
 
   private enum Mode {
     OFF,
@@ -94,6 +94,7 @@ public class ActuatorPIDFSubsystem extends SubsystemBase {
   @Override 
   public void periodic() {
 
+   //state machine
    switch (mode) {
 
     case OFF:
@@ -105,16 +106,50 @@ public class ActuatorPIDFSubsystem extends SubsystemBase {
       break;
 
     case LOW_CHAMBER: 
-      target = cmToTicks
+      target = cmToTicks(lowChamber);
+      break;
 
+    case HIGHT_CHAMBER:
+      target = cmToTicks(hightChamber);
+      break;
 
+    case LOW_BASKET:
+      target = cmToTicks(lowBasket);
+      break;
 
-  
+    case HIGHT_BASKET:
+      target = cmToTicks(hightBasket);
+      break;
+   }
+   
+    if (mode != Mode.OFF) {
+      pidfUpdate();
+    }
+  }
 
+  //status
+  public int getTarget() { return target; }
+  public int getActuatorPosition() { return actuator.getCurrentPosition(); }
+  public double getError() { return target - actuator.getCurrentPosition(); }
+  public double getActuatorPower() { return power; }
+  public double getActuatorVelocity() { return actuator.getVelocity(); }
+
+  public String getActuatorSTATUS() {
+    return String.format(
+      "Mode=%s ActuatorPos=%d ActuatorCurrentPos=%d Error=%.2f Power=%.2f Velocity=%.2f"
+     mode,
+     getTarget(),
+     getActuatorPosition(),
+     getError(),
+     getActuatorPower(),
+     getActuatorVelocity()
+     );
+  }
+}
+ 
   //a distância percorrida pelo actuator = ao perímetro da engrenagem acoplada ao motor
   // o diâmetro da engrenagem = 4,96 cm
   // p = d.r => 4.96 * Math.PI
   // ticks per rev = 145.6 => 1150 RPM
   // ticks per rev = 537.7 => 312 RPM
   // para saber quantos ticks tem um motor, pega a resolução do encoder (28 contagens per rev => 28 PPR) e multiplica pela redução
-  
