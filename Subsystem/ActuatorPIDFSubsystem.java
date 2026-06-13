@@ -3,17 +3,19 @@ public class ActuatorPIDFSubsystem extends SubsystemBase {
   private DcMotorEX actuator;
   public double power;
   public static target = 0;
+  public int TOLERANCE = 15;
   
   private PIDFController pidf;
   
   public static double kP = 0, kI = 0, kD = 0;
   public static double kF = 0;
 
+  double ticks_per_rev = 537.7;
+
   //distância percorrida por volta
   double cm_per_rev = 4.96 * Math.PI;
-  double ticks_per_rev = 537.7;
   
-  //nessa distância ele roda esse número de ticks
+  //distancia por tick
   double cm_per_tick = cm_per_rev / ticks_per_rev;
 
   //posições do atuator
@@ -40,8 +42,33 @@ public class ActuatorPIDFSubsystem extends SubsystemBase {
   }
 
   public void pidfUpdate() {
-
    //limitador 
+   target = Math.max(cmToTicks(MIN_HEIGHT), Math.min(cmToTicks(MAX_HEIGHT), target));
+
+   pidf.setPIDF(kP, kI, kD, kF);
+
+   //calcula o pid
+   int posActuator = actuator.getCurrentPosition();
+   double pid = pidf.calculate(posActuator - target);
+
+   //aplica o pid na potencia do motor
+   double ff = kF;
+   double output = pid + ff;
+   output = Math.max(-1.0, Math.min(1.0, output));
+   double speed = 0.8;
+   power = (output * speed);
+   actuator.setPower(power);
+  }
+
+  public boolean atTarget() {
+    return Math.abs(actuator.getCurrentPosition() - target) < TOLERANCE && Math.abs(actuator.getVelocity()) < 15;
+  }
+
+  public void resetActuator() {
+    pidf.reset();
+    actuator.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    actuator.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    actuator.stPower(0);
   }
 
   //a distância percorrida pelo actuator = ao perímetro da engrenagem acoplada ao motor
