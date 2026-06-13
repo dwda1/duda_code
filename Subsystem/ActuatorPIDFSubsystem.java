@@ -71,6 +71,46 @@ public class ActuatorPIDFSubsystem extends SubsystemBase {
     actuator.stPower(0);
   }
 
+  //state machine
+
+  private enum Mode {
+    OFF,
+    DOWN,
+    LOW_CHAMBER,
+    HIGHT_CHAMBER,
+    LOW_BASKET,
+    HIGHT_BASKET
+  }
+
+  private Mode mode = Mode.OFF;
+
+  public void actuatorOff() { mode = Mode.OFF; }
+  public void actuatorDown() { mode = Mode.DOWN; }
+  public void actuatorLowChamber() { mode = Mode.LOW_CHAMBER; }
+  public void actuatorHightChamber() { mode = Mode.HIGHT_CHAMBER; }
+  public void actuatorLowBasket() { mode = Mode.LOW_BASKET; }
+  public void actuatorHightBasket() { mode = Mode.HIGHT_BASKET; }
+
+  @Override 
+  public void periodic() {
+
+   switch (mode) {
+
+    case OFF:
+      resetActuator();
+      break;
+
+    case DOWN:
+      target = cmToTicks(initialPOsition);
+      break;
+
+    case LOW_CHAMBER: 
+      target = cmToTicks
+
+
+
+  
+
   //a distância percorrida pelo actuator = ao perímetro da engrenagem acoplada ao motor
   // o diâmetro da engrenagem = 4,96 cm
   // p = d.r => 4.96 * Math.PI
