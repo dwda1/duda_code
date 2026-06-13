@@ -22,27 +22,26 @@ public class ClawSubsystem extends SubsystemBase {
     public void claw_Open() { mode = Mode.OPEN; }
     public void claw_Close() { mode = Mode.CLOSE; }
 
-    // verifica se já chegou na posição
-    public boolean clawAtTarget() { return claw.getPOsition() == pos; }
-    
     @Override
     public void periodic() {
         //state machine
         switch (mode) {
 
             case OPEN:
-                pos = 0.35;
+                pos = 0.85;
                 claw.setPosition(pos);
+                break;
 
             case CLOSE:
                 pos = 0.0;
                 claw.setPosition(pos);
+                break;
         }
     }
     
     public String getClawStatus() {
         return String.format(
-                "Mode=%s ClawPos=%d",
+                "Mode=%s ClawPos=%.2f",
                 mode,
                 claw.getPosition()
         );
