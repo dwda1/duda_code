@@ -6,8 +6,10 @@ import com.seattlesolvers.solverslib.command.SubsystemBase;
 
 public class JointSubsystem extends SubsystemBase {
 
-    private Servo joint;
+    private final Servo joint;
     public double pos;
+
+    public static double startPosition = 0;
 
     //construtor
     public JointSubsystem (HardwareMap hwMap) {
@@ -31,9 +33,6 @@ public class JointSubsystem extends SubsystemBase {
     public void jointDown() { jointMode = JMode.DOWN; }
     public void jointToBasket() { jointMode = JMode.TO_BASKET; }
     public void jointToChamber() { jointMode = JMode.TO_CHAMBER; }
-
-    //verifica se já chegou na posição
-    public boolean jointAtTarget() { return Math.abs(joint.getPosition() - pos) < 0.01; }
 
     @Override
     public void periodic() {
