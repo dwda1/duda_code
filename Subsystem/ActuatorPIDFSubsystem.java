@@ -50,9 +50,9 @@ public class ActuatorPIDFSubsystem extends SubsystemBase {
    //calcula o pid
    int posActuator = actuator.getCurrentPosition();
    double pid = pidf.calculate(posActuator - target);
-
-   //aplica o pid na potencia do motor
    double ff = kF;
+   
+   //aplica o pid na potencia do motor
    double output = pid + ff;
    output = Math.max(-1.0, Math.min(1.0, output));
    double speed = 0.8;
