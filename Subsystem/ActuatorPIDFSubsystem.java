@@ -20,11 +20,11 @@ public class ActuatorPIDFSubsystem extends SubsystemBase {
   private static final double cm_per_tick = cm_per_rev / ticks_per_rev;
 
   //posições do atuator
-  public static double MAX_HEIGHT = 23.33;
-  public static double MIN_HEIGHT = 0.0;
-  public static double transfer = 4.0;
-  public static double take = 14.00;
-  public static double initialPosition = 0;
+  double MAX_HEIGHT = 23.33;
+  double MIN_HEIGHT = 0.0;
+  double transfer = 4.0;
+  double take = 14.00;
+  double initialPosition = 0;
 
   //convertendo cm para ticks
   public int cmToTicks(double cm) {
