@@ -1,4 +1,4 @@
-public class ActuatorOff extends CommandBase {
+public class ActuatorHighBasket extends CommandBase {
   
   private final ActuatorPIDFSubsystem actuator;
 
