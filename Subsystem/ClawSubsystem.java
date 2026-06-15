@@ -6,11 +6,11 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.seattlesolvers.solverslib.command.SubsystemBase;
 
 public class ClawSubsystem extends SubsystemBase {
-    private Servo claw;
+    private final Servo claw;
 
     //posições
-    public static double open = 0.85;
-    public static double close = 0.0;
+    public static final double open = 0.85;
+    public static final double close = 0.0;
 
     public ClawSubsystem (HardwareMap hwMap) {
         claw = hwMap.get(Servo.class, "claw");
