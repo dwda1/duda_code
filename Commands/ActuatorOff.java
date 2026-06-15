@@ -8,7 +8,7 @@ public class ActuatorOff extends CommandBase {
   }
 
   @Override
-  public void initialized() {
+  public void initialize() {
     actuator.actuatorOff();
   }
 
