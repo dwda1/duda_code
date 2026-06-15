@@ -2,13 +2,13 @@ public class ActuatorBack extends CommandBase {
   
   private final ActuatorPIDFSubsystem actuator;
 
-  public ActuatorOff(ActuatorPIDFSubsystem subsystem) {
+  public ActuatorBack(ActuatorPIDFSubsystem subsystem) {
     actuator = subsystem;
     addRequirements(actuator);
   }
 
   @Override
-  public void initialized() {
+  public void initialize() {
     actuator.actuatorBack();
   }
 
