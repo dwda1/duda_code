@@ -7,18 +7,16 @@ import com.seattlesolvers.solverslib.command.SubsystemBase;
 public class JointSubsystem extends SubsystemBase {
 
     private final Servo joint;
-    public double pos;
 
+    //posições
     public static double startPosition = 0;
+    public static double toBasket = 1.0;
+    public static double toChamber = 0.5;
 
     //construtor
     public JointSubsystem (HardwareMap hwMap) {
         joint = hwMap.get(Servo.class, "joint");
     }
-
-    //====================================================
-    //===============JOINT ENUM MODE==================
-    //====================================================
 
     private enum JMode {
         OFF,
@@ -40,23 +38,19 @@ public class JointSubsystem extends SubsystemBase {
         switch (jointMode) {
 
             case OFF:
-                pos = 0.0;
-                joint.setPosition(pos);
+                joint.setPosition(startPosition);
                 break;
 
             case DOWN:
-                pos = 0.0;
-                joint.setPosition(pos);
+                joint.setPosition(startPosition);
                 break;
 
             case TO_BASKET:
-                pos = 0.85;
-                joint.setPosition(pos);
+                joint.setPosition(toBasket);
                 break;
 
             case TO_CHAMBER:
-                pos = 0.5;
-                joint.setPosition(pos);
+                joint.setPosition(toChamber);
                 break;
         }
     }
