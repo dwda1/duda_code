@@ -1,4 +1,4 @@
-public class ActuatorDown extends CommandBase {
+public class ActuatorTransfer extends CommandBase {
   
   private final ActuatorPIDFSubsystem actuator;
 
@@ -9,7 +9,7 @@ public class ActuatorDown extends CommandBase {
 
   @Override
   public void initialized() {
-    actuator.actuatorDown();
+    actuator.actuatorTransfer();
   }
 
   @Override
