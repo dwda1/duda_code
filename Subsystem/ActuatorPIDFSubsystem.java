@@ -32,7 +32,7 @@ public class ActuatorPIDFSubsystem extends SubsystemBase {
   }
 
   public ActuatorPIDFSubsystem (HardwareMap hwMap) {
-    actuator = hwMap.get(DcMotorEx.clas, "actuator");
+    actuator = hwMap.get(DcMotorEx.class, "actuator");
 
     actuator.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     actuator.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -93,6 +93,7 @@ public class ActuatorPIDFSubsystem extends SubsystemBase {
 
     case OFF:
       actuator.setPower(0);
+      pidf.reset();
       break;
 
     case TRANSFER:
@@ -132,10 +133,3 @@ public class ActuatorPIDFSubsystem extends SubsystemBase {
      );
   }
 }
- 
-  //a distância percorrida pelo actuator = ao perímetro da engrenagem acoplada ao motor
-  // o diâmetro da engrenagem = 4,96 cm
-  // p = d.r => 4.96 * Math.PI
-  // ticks per rev = 145.6 => 1150 RPM
-  // ticks per rev = 537.7 => 312 RPM
-  // para saber quantos ticks tem um motor, pega a resolução do encoder (28 contagens per rev => 28 PPR) e multiplica pela redução
