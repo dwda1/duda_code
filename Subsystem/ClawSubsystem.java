@@ -7,7 +7,10 @@ import com.seattlesolvers.solverslib.command.SubsystemBase;
 
 public class ClawSubsystem extends SubsystemBase {
     private Servo claw;
-    public double pos;
+
+    //posições
+    public static double open = 0.85;
+    public static double close = 0.0;
 
     public ClawSubsystem (HardwareMap hwMap) {
         claw = hwMap.get(Servo.class, "claw");
@@ -28,13 +31,11 @@ public class ClawSubsystem extends SubsystemBase {
         switch (mode) {
 
             case OPEN:
-                pos = 0.85;
-                claw.setPosition(pos);
+                claw.setPosition(open);
                 break;
 
             case CLOSE:
-                pos = 0.0;
-                claw.setPosition(pos);
+                claw.setPosition(close);
                 break;
         }
     }
