@@ -2,13 +2,13 @@ public class ActuatorTransfer extends CommandBase {
   
   private final ActuatorPIDFSubsystem actuator;
 
-  public ActuatorOff(ActuatorPIDFSubsystem subsystem) {
+  public ActuatorTransfer(ActuatorPIDFSubsystem subsystem) {
     actuator = subsystem;
     addRequirements(actuator);
   }
 
   @Override
-  public void initialized() {
+  public void initialize() {
     actuator.actuatorTransfer();
   }
 
