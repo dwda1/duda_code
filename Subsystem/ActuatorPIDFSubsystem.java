@@ -8,7 +8,7 @@ public class ActuatorPIDFSubsystem extends SubsystemBase {
   
   private PIDFController pidf;
   
-  public static double kP = 0, kI = 0, kD = 0;
+  public static double kP = 0.01, kI = 0, kD = 0;
   public static double kF = 0;
 
   private static final double ticks_per_rev = 537.7;
@@ -20,13 +20,11 @@ public class ActuatorPIDFSubsystem extends SubsystemBase {
   private static final double cm_per_tick = cm_per_rev / ticks_per_rev;
 
   //posições do atuator
-  double MAX_HEIGHT = 
-  double MIN_HEIGHT =
-  double highChamber =
-  double lowChamber =
-  double highBasket =
-  double lowBasket =
-  double initialPosition =
+  public static double MAX_HEIGHT = 23,33;
+  public static double MIN_HEIGHT = 0.0;
+  public static double transfer = 3.54;
+  public static double take = 14.56;
+  public static double initialPosition = 0;
 
   //convertendo cm para ticks
   public int cmToTicks(double cm) {
@@ -34,7 +32,7 @@ public class ActuatorPIDFSubsystem extends SubsystemBase {
   }
 
   public ActuatorPIDFSubsystem (HardwareMap hwMap) {
-    actuator = hwMap.get(DcMotorEx.clas, "atuator");
+    actuator = hwMap.get(DcMotorEx.clas, "actuator");
 
     actuator.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     actuator.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -75,21 +73,17 @@ public class ActuatorPIDFSubsystem extends SubsystemBase {
 
   private enum Mode {
     OFF,
-    DOWN,
-    LOW_CHAMBER,
-    HIGH_CHAMBER,
-    LOW_BASKET,
-    HIGH_BASKET
+    TRANSFER,
+    TAKE,
+    BACK
   }
 
   private Mode mode = Mode.OFF;
 
   public void actuatorOff() { mode = Mode.OFF; }
-  public void actuatorDown() { mode = Mode.DOWN; }
-  public void actuatorLowChamber() { mode = Mode.LOW_CHAMBER; }
-  public void actuatorHighChamber() { mode = Mode.HIGHT_CHAMBER; }
-  public void actuatorLowBasket() { mode = Mode.LOW_BASKET; }
-  public void actuatorHighBasket() { mode = Mode.HIGHT_BASKET; }
+  public void actuatorTransfer() { mode = Mode.TRANSFER; }
+  public void actuatorTake() { mode = Mode.TAKE; }
+  public void actuatorBack() { mode = Mode.BACK; }
 
   @Override 
   public void periodic() {
@@ -101,24 +95,16 @@ public class ActuatorPIDFSubsystem extends SubsystemBase {
       actuator.setPower(0);
       break;
 
-    case DOWN:
+    case TRANSFER:
+      target = cmToTicks(transfer);
+      break;
+
+    case TAKE: 
+      target = cmToTicks(take);
+      break;
+
+    case BACK:
       target = cmToTicks(initialPosition);
-      break;
-
-    case LOW_CHAMBER: 
-      target = cmToTicks(lowChamber);
-      break;
-
-    case HIGH_CHAMBER:
-      target = cmToTicks(highChamber);
-      break;
-
-    case LOW_BASKET:
-      target = cmToTicks(lowBasket);
-      break;
-
-    case HIGH_BASKET:
-      target = cmToTicks(highBasket);
       break;
    }
    
