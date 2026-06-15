@@ -2,13 +2,13 @@ public class ActuatorTake extends CommandBase {
   
   private final ActuatorPIDFSubsystem actuator;
 
-  public ActuatorOff(ActuatorPIDFSubsystem subsystem) {
+  public ActuatorTake(ActuatorPIDFSubsystem subsystem) {
     actuator = subsystem;
     addRequirements(actuator);
   }
 
   @Override
-  public void initialized() {
+  public void initialize() {
     actuator.actuatorTake();
   }
 
