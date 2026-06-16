@@ -16,12 +16,12 @@ public class AutoArm extends LinearOpMode {
       new SequentialCommandGroup(
         new GoToLowChamber(viper),
         new JointToChamber(joint),
-        new JointDonw(joint),
+        new JointDown(joint),
         new ViperDown(viper),
 
         new GoToHighChamber(viper),
         new JointToChamber(joint),
-        new JointDonw(joint),
+        new JointDown(joint),
         new ViperDown(viper),
 
         new GoToLowBasket(viper),
@@ -31,7 +31,7 @@ public class AutoArm extends LinearOpMode {
 
         new GoToHighBasket(viper),
         new JointToBasket(joint),
-        new JointDonw(joint),
+        new JointDown(joint),
         new ViperDown(viper),
         new ViperOff(viper)
         )
@@ -42,6 +42,7 @@ public class AutoArm extends LinearOpMode {
       CommandScheduler.getInstance().run();
 
       telemetry.addData("status: ", viper.getStatus());
+      telemetry.addData("Joint status: ", joint.getJointStatus());
       telemetry.update();
     }
 
