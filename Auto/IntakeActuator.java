@@ -4,7 +4,7 @@ public class IntakeAuto extends LinearOpMode {
   private ClawSubsystem claw;
 
   @Override 
-  public vois runOpMode() throws InterruptedException {
+  public void runOpMode() throws InterruptedException {
     actuator = new ActuatorPIDFSubsystem(hardwareMap);
     actuator.resetActuator();
 
@@ -15,8 +15,8 @@ public class IntakeAuto extends LinearOpMode {
 
     CommandScheduler.getInstance().schedule(
       new SequentialCommandGroup(
-        new ActuatorTake(actuator),
         new ClawOpen(claw),
+        new ActuatorTake(actuator),
         new ClawClose(claw),
         new ActuatorTransfer(actuator),
         new JointToChamber(joint),
