@@ -28,3 +28,4 @@ public class DriverSubsystem extends SubsystemBase {
 }
 
 //link da documentação: https://www.gobilda.com/content/user_manuals/3110-0002-0001%20User%20Guide.pdf
+//https://www.studocu.com/en-us/document/central-ill-rural-region/ap-physics-c-electricity-magnetism/3110-0002-0001-pinpoint-odometry-computer-user-guide/160519804?sid=71774275-0e01-4b51-a68a-4547cd6313801783367217
